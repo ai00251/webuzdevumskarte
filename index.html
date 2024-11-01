@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Map with LKS92 Markers</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map').setView([56.9496, 24.1052], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var coordinates = [
+            [56.9496, 24.1052],
+            [56.9460, 24.1052],
+            [56.9470, 24.1100]
+        ];
+
+        coordinates.forEach(function(coord) {
+            var lks92Coords = LKS92WGS84.convertLatLonToXY(coord);
+            L.marker([coord[0], coord[1]]).addTo(map)
+                .bindPopup('LKS92 Coordinates: ' + lks92Coords[0].toFixed(2) + ', ' + lks92Coords[1].toFixed(2));
+        });
+    </script>
+</body>
+</html>
